@@ -17,6 +17,7 @@ struct ContentView: View {
             }
         }
         .background(.black)
+        .drawingGroup()
         HStack {
             Button("Clear", role: .destructive) { self.automaton.clear() }
             Button("Start") { self.automaton.start() }
