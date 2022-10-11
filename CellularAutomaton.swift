@@ -8,7 +8,7 @@ public struct CellularAutomaton {
     public let height: Int
     public let neighborhood: Neighborhood
     public private(set) var time = 0
-    private var map: [Bool]
+    @usableFromInline var map: [Bool]
 
     public init(width: Int, height: Int, neighborhood: Neighborhood = .moore) {
         self.width = width
@@ -49,7 +49,7 @@ public struct CellularAutomaton {
 
     public mutating func next() {
         self.time += 1
-        self.map = [Bool](unsafeUninitializedCapacity: self.map.count) { buffer, initializedCount in
+        self.map = .init(unsafeUninitializedCapacity: self.map.count) { buffer, initializedCount in
             for y in 0..<self.height {
                 for x in 0..<self.width {
                     let nextState: Bool
@@ -62,45 +62,42 @@ public struct CellularAutomaton {
                     case (false, _): nextState = false
                     }
                     buffer[y * self.width + x] = nextState
-                    initializedCount += 1
                 }
             }
+            initializedCount = self.map.count
         }
     }
 
     private func countLiveNeighbors(_ x: Int, _ y: Int) -> Int {
+        let prevX = (x - 1 + self.width) % self.width
+        let prevY = (y - 1 + self.height) % self.height
+        let nextX = (x + 1) % self.width
+        let nextY = (y + 1) % self.height
         let neighbors: [Bool]
         switch self.neighborhood {
         case .vonNeumann:
             neighbors = [
-                self.getNeighbor(x, y - 1),
-                self.getNeighbor(x - 1, y),
-                self.getNeighbor(x + 1, y),
-                self.getNeighbor(x, y + 1),
+                self[x, prevY],
+                self[prevX, y],
+                self[nextX, y],
+                self[x, nextY],
             ]
         case .moore:
             neighbors = [
-                self.getNeighbor(x - 1, y - 1),
-                self.getNeighbor(x, y - 1),
-                self.getNeighbor(x + 1, y - 1),
-                self.getNeighbor(x - 1, y),
-                self.getNeighbor(x + 1, y),
-                self.getNeighbor(x - 1, y + 1),
-                self.getNeighbor(x, y + 1),
-                self.getNeighbor(x + 1, y + 1),
+                self[prevX, prevY],
+                self[x, prevY],
+                self[nextX, prevY],
+                self[prevX, y],
+                self[nextX, y],
+                self[prevX, nextY],
+                self[x, nextY],
+                self[nextX, nextY],
             ]
         }
         return neighbors.lazy.filter { $0 }.count
     }
 
-    private func getNeighbor(_ x: Int, _ y: Int) -> Bool {
-        var x = x
-        var y = y
-        while x < 0 { x += self.width }
-        while y < 0 { y += self.height }
-        return self.map[(y % self.height) * self.width + (x % self.width)]
-    }
-
+    @inlinable
     public subscript(x: Int, y: Int) -> Bool {
         get { self.map[y * self.width + x] }
         set { self.map[y * self.width + x] = newValue }
