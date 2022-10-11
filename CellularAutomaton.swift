@@ -24,22 +24,13 @@ public struct CellularAutomaton {
         }
     }
 
-    public mutating func start(random: Bool = false) {
-        self.clear()
-        if random {
-            self.initializeMapRandomly()
-        } else {
-            self.initializeMapRPentomino()
-        }
-    }
-
-    private mutating func initializeMapRandomly() {
+    public mutating func putRandomly() {
         for i in 0..<self.map.count {
             self.map[i] = .random()
         }
     }
 
-    private mutating func initializeMapRPentomino() {
+    public mutating func putRPentomino() {
         self[1, 0] = true
         self[2, 0] = true
         self[0, 1] = true
