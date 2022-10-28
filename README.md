@@ -9,12 +9,12 @@
 
 ## Target platforms
 
-- iPadOS 16.0 or later
-- iOS 16.0 or later
+- iPadOS 16.1 or later
+- iOS 16.1 or later
   
 ## Build requirements
 
-- Swift Playgrounds 4.2 or later (iPadOS 16.0 or later)
+- Swift Playgrounds 4.2 or later (iPadOS 16.1 or later)
 
 ## Get Started
 

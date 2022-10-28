@@ -10,7 +10,7 @@ import AppleProductTypes
 let package = Package(
     name: "Game of Life",
     platforms: [
-        .iOS("16.0")
+        .iOS("16.1")
     ],
     products: [
         .iOSApplication(
