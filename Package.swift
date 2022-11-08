@@ -29,27 +29,27 @@ let package = Package(
 )
 
 #if canImport(AppleProductTypes)
-import AppleProductTypes
+    import AppleProductTypes
 
-package.products += [
-    .iOSApplication(
-        name: "Game of Life",
-        targets: ["AppModule"],
-        displayVersion: "1.0",
-        bundleVersion: "1",
-        appIcon: .placeholder(icon: .gamepad),
-        accentColor: .presetColor(.orange),
-        supportedDeviceFamilies: [
-            .pad,
-            .phone
-        ],
-        supportedInterfaceOrientations: [
-            .portrait,
-            .landscapeRight,
-            .landscapeLeft,
-            .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-        ],
-        appCategory: .simulationGames
-    )
-]
+    package.products += [
+        .iOSApplication(
+            name: "Game of Life",
+            targets: ["AppModule"],
+            displayVersion: "1.0",
+            bundleVersion: "1",
+            appIcon: .placeholder(icon: .gamepad),
+            accentColor: .presetColor(.orange),
+            supportedDeviceFamilies: [
+                .pad,
+                .phone
+            ],
+            supportedInterfaceOrientations: [
+                .portrait,
+                .landscapeRight,
+                .landscapeLeft,
+                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ],
+            appCategory: .simulationGames
+        )
+    ]
 #endif
