@@ -5,7 +5,6 @@
 // Do not edit it by hand because the contents will be replaced.
 
 import PackageDescription
-import AppleProductTypes
 
 let package = Package(
     name: "Game of Life",
@@ -13,29 +12,44 @@ let package = Package(
         .iOS("16.1")
     ],
     products: [
-        .iOSApplication(
-            name: "Game of Life",
-            targets: ["AppModule"],
-            displayVersion: "1.0",
-            bundleVersion: "1",
-            appIcon: .placeholder(icon: .gamepad),
-            accentColor: .presetColor(.orange),
-            supportedDeviceFamilies: [
-                .pad,
-                .phone
-            ],
-            supportedInterfaceOrientations: [
-                .portrait,
-                .landscapeRight,
-                .landscapeLeft,
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ],
-            appCategory: .simulationGames
+        .library(
+            name: "GameOfLife",
+            targets: ["GameOfLife"]
         )
     ],
     targets: [
+        .target(
+            name: "GameOfLife"
+        ),
         .executableTarget(
-            name: "AppModule"
+            name: "AppModule",
+            dependencies: ["GameOfLife"]
         )
     ]
 )
+
+#if canImport(AppleProductTypes)
+import AppleProductTypes
+
+package.products += [
+    .iOSApplication(
+        name: "Game of Life",
+        targets: ["AppModule"],
+        displayVersion: "1.0",
+        bundleVersion: "1",
+        appIcon: .placeholder(icon: .gamepad),
+        accentColor: .presetColor(.orange),
+        supportedDeviceFamilies: [
+            .pad,
+            .phone
+        ],
+        supportedInterfaceOrientations: [
+            .portrait,
+            .landscapeRight,
+            .landscapeLeft,
+            .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+        ],
+        appCategory: .simulationGames
+    )
+]
+#endif

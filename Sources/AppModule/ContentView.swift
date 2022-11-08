@@ -1,3 +1,4 @@
+import GameOfLife
 import SwiftUI
 
 struct ContentView {
