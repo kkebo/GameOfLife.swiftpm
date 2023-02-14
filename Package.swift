@@ -5,7 +5,6 @@
 // Do not edit it by hand because the contents will be replaced.
 
 import PackageDescription
-import AppleProductTypes
 
 let package = Package(
     name: "Game of Life",
@@ -16,25 +15,6 @@ let package = Package(
         .library(
             name: "GameOfLife",
             targets: ["GameOfLife"]
-        ),
-        .iOSApplication(
-            name: "Game of Life",
-            targets: ["AppModule"],
-            displayVersion: "1.0",
-            bundleVersion: "1",
-            appIcon: .placeholder(icon: .gamepad),
-            accentColor: .presetColor(.orange),
-            supportedDeviceFamilies: [
-                .pad,
-                .phone
-            ],
-            supportedInterfaceOrientations: [
-                .portrait,
-                .landscapeRight,
-                .landscapeLeft,
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
-            ],
-            appCategory: .simulationGames
         )
     ],
     dependencies: [
@@ -48,8 +28,34 @@ let package = Package(
             name: "AppModule",
             dependencies: [
                 "GameOfLife",
-                .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+                .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
             ]
-        )
+        ),
     ]
 )
+
+#if canImport(AppleProductTypes)
+    import AppleProductTypes
+
+    package.products += [
+        .iOSApplication(
+            name: "Game of Life",
+            targets: ["AppModule"],
+            displayVersion: "1.0",
+            bundleVersion: "1",
+            appIcon: .placeholder(icon: .gamepad),
+            accentColor: .presetColor(.orange),
+            supportedDeviceFamilies: [
+                .pad,
+                .phone,
+            ],
+            supportedInterfaceOrientations: [
+                .portrait,
+                .landscapeRight,
+                .landscapeLeft,
+                .portraitUpsideDown(.when(deviceFamilies: [.pad])),
+            ],
+            appCategory: .simulationGames
+        )
+    ]
+#endif
