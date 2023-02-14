@@ -5,6 +5,7 @@
 // Do not edit it by hand because the contents will be replaced.
 
 import PackageDescription
+import AppleProductTypes
 
 let package = Package(
     name: "Game of Life",
@@ -15,23 +16,7 @@ let package = Package(
         .library(
             name: "GameOfLife",
             targets: ["GameOfLife"]
-        )
-    ],
-    targets: [
-        .target(
-            name: "GameOfLife"
         ),
-        .executableTarget(
-            name: "AppModule",
-            dependencies: ["GameOfLife"]
-        )
-    ]
-)
-
-#if canImport(AppleProductTypes)
-    import AppleProductTypes
-
-    package.products += [
         .iOSApplication(
             name: "Game of Life",
             targets: ["AppModule"],
@@ -51,5 +36,20 @@ let package = Package(
             ],
             appCategory: .simulationGames
         )
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-async-algorithms", "0.1.0"..<"0.2.0")
+    ],
+    targets: [
+        .target(
+            name: "GameOfLife"
+        ),
+        .executableTarget(
+            name: "AppModule",
+            dependencies: [
+                "GameOfLife",
+                .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+            ]
+        )
     ]
-#endif
+)

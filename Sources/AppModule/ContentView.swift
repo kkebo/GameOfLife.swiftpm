@@ -1,3 +1,4 @@
+import AsyncAlgorithms
 import GameOfLife
 import SwiftUI
 
@@ -9,9 +10,9 @@ struct ContentView {
     private var isRunning: Bool { self.task != nil }
 
     private func start() {
+        let interval = 1 / self.framesPerSecond
         self.task = .detached(priority: .high) {
-            while true {
-                try await Task.sleep(for: .seconds(1 / self.framesPerSecond))
+            for await _ in AsyncTimerSequence.repeating(every: .seconds(interval)) {
                 self.automaton.next()
             }
         }
@@ -92,6 +93,7 @@ extension ContentView: View {
                     in: 1...Double(UIScreen.main.maximumFramesPerSecond),
                     step: 1
                 )
+                .disabled(self.isRunning)
             }
         }
     }
