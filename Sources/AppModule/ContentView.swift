@@ -8,9 +8,9 @@ struct ContentView {
     private var isRunning: Bool { self.task != nil }
 
     private func start() {
-        self.task = Task.detached(priority: .userInitiated) {
+        self.task = .detached(priority: .high) {
             while true {
-                try await Task.sleep(nanoseconds: 100_000_000)
+                try Task.checkCancellation()
                 self.automaton.next()
             }
         }
@@ -26,19 +26,26 @@ extension ContentView: View {
     var body: some View {
         VStack(spacing: 5) {
             Text(self.automaton.time, format: .number)
-            VStack(spacing: 1) {
-                ForEach(0..<self.automaton.height, id: \.self) { y in
-                    HStack(spacing: 1) {
-                        ForEach(0..<self.automaton.width, id: \.self) { x in
-                            Rectangle()
-                                .fill(self.automaton[x, y] ? .white : .black)
-                                .scaledToFit()
-                        }
+            Canvas { context, size in
+                let rectSize = CGSize(
+                    width: size.width / Double(self.automaton.width),
+                    height: size.height / Double(self.automaton.height)
+                )
+                var offset = CGPoint.zero
+                for y in 0..<self.automaton.height {
+                    offset.y = rectSize.height * Double(y)
+                    for x in 0..<self.automaton.width {
+                        guard self.automaton[x, y] else { continue }
+                        offset.x = rectSize.width * Double(x)
+                        context.fill(
+                            Path(CGRect(origin: offset, size: rectSize)),
+                            with: .color(.white)
+                        )
                     }
                 }
             }
             .background(.black)
-            .drawingGroup()
+            .scaledToFit()
             .onAppear {
                 self.automaton.putRPentomino()
             }
