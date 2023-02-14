@@ -4,13 +4,14 @@ import SwiftUI
 struct ContentView {
     @State private var automaton = CellularAutomaton(width: 100, height: 100)
     @State private var isResetting = false
+    @State private var framesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
     @State private var task: Task<Void, Error>?
     private var isRunning: Bool { self.task != nil }
 
     private func start() {
         self.task = .detached(priority: .high) {
             while true {
-                try Task.checkCancellation()
+                try await Task.sleep(for: .seconds(1 / self.framesPerSecond))
                 self.automaton.next()
             }
         }
@@ -50,37 +51,48 @@ extension ContentView: View {
                 self.automaton.putRPentomino()
             }
             self.controls
+                .padding(.horizontal, 10)
         }
         .buttonStyle(.borderedProminent)
     }
 
     private var controls: some View {
-        HStack {
-            Button("Reset", role: .destructive) {
-                self.isResetting.toggle()
-            }
-            .hoverEffect()
-            .disabled(self.isRunning)
-            .confirmationDialog("", isPresented: self.$isResetting) { 
-                Button("R-pentomino") {
-                    self.automaton.clear()
-                    self.automaton.putRPentomino()
+        VStack(spacing: 5) {
+            HStack {
+                Button("Reset", role: .destructive) {
+                    self.isResetting.toggle()
                 }
-                Button("Random") {
-                    self.automaton.clear()
-                    self.automaton.putRandomly()
+                .hoverEffect()
+                .disabled(self.isRunning)
+                .confirmationDialog("", isPresented: self.$isResetting) { 
+                    Button("R-pentomino") {
+                        self.automaton.clear()
+                        self.automaton.putRPentomino()
+                    }
+                    Button("Random") {
+                        self.automaton.clear()
+                        self.automaton.putRandomly()
+                    }
                 }
+                Button(!self.isRunning ? "Start" : "Stop") {
+                    !self.isRunning ? self.start() : self.stop()
+                }
+                .hoverEffect()
+                Button("Next") {
+                    self.automaton.next()
+                }
+                .keyboardShortcut("n", modifiers: .shift)
+                .hoverEffect()
+                .disabled(self.isRunning)
             }
-            Button(!self.isRunning ? "Start" : "Stop") {
-                !self.isRunning ? self.start() : self.stop()
+            HStack {
+                Text("\(self.framesPerSecond, format: .number) fps")
+                Slider(
+                    value: self.$framesPerSecond,
+                    in: 1...Double(UIScreen.main.maximumFramesPerSecond),
+                    step: 1
+                )
             }
-            .hoverEffect()
-            Button("Next") {
-                self.automaton.next()
-            }
-            .keyboardShortcut("n", modifiers: .shift)
-            .hoverEffect()
-            .disabled(self.isRunning)
         }
     }
 }
