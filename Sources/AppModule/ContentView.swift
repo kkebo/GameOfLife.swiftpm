@@ -36,12 +36,11 @@ extension ContentView: View {
                     width: size.width / Double(self.automaton.width),
                     height: size.height / Double(self.automaton.height)
                 )
-                var offset = CGPoint.zero
                 for y in 0..<self.automaton.height {
-                    offset.y = rectSize.height * Double(y)
+                    let offsetY = rectSize.height * Double(y)
                     for x in 0..<self.automaton.width {
                         guard self.automaton[x, y] else { continue }
-                        offset.x = rectSize.width * Double(x)
+                        let offset = CGPoint(x: rectSize.width * Double(x), y: offsetY)
                         context.fill(
                             Path(CGRect(origin: offset, size: rectSize)),
                             with: .color(.white)
@@ -68,7 +67,7 @@ extension ContentView: View {
                 }
                 .hoverEffect()
                 .disabled(self.isRunning)
-                .confirmationDialog("", isPresented: self.$isResetting) { 
+                .confirmationDialog("", isPresented: self.$isResetting) {
                     Button("R-pentomino") {
                         self.automaton.clear()
                         self.automaton.putRPentomino()
