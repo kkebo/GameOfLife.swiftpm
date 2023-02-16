@@ -18,7 +18,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-async-algorithms", "0.1.0"..<"0.2.0")
+        .package(url: "https://github.com/apple/swift-async-algorithms", "0.1.0"..<"0.2.0"),
+        .package(url: "https://github.com/kkk669/swift-collections", "1.2.0"..<"1.3.0"),
     ],
     targets: [
         .target(
@@ -29,6 +30,7 @@ let package = Package(
             dependencies: [
                 "GameOfLife",
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
+                .product(name: "BitCollections", package: "swift-collections"),
             ]
         ),
     ]

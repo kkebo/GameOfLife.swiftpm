@@ -1,3 +1,5 @@
+import BitCollections
+
 public enum Neighborhood {
     case vonNeumann
     case moore
@@ -8,25 +10,25 @@ public struct CellularAutomaton {
     public let height: Int
     public let neighborhood: Neighborhood
     public private(set) var time = 0
-    @usableFromInline var map: [Bool]
+    @usableFromInline var map: [BitArray]
 
     public init(width: Int, height: Int, neighborhood: Neighborhood = .moore) {
         self.width = width
         self.height = height
         self.neighborhood = neighborhood
-        self.map = .init(repeating: .init(), count: height * width)
+        self.map = .init(repeating: .init(repeating: false, count: width), count: height)
     }
 
     public mutating func clear() {
         self.time = 0
-        for i in 0..<self.map.count {
-            self.map[i] = .init()
+        for i in self.map.indices {
+            self.map[i].fill(with: false)
         }
     }
 
     public mutating func putRandomly() {
-        for i in 0..<self.map.count {
-            self.map[i] = .random()
+        for i in self.map.indices {
+            self.map[i] = .randomBits(count: self.width)
         }
     }
 
@@ -40,7 +42,10 @@ public struct CellularAutomaton {
 
     public mutating func next() {
         self.time += 1
-        self.map = .init(unsafeUninitializedCapacity: self.map.count) { buffer, initializedCount in
+
+        var nextMap = self.map
+        switch self.neighborhood {
+        case .vonNeumann:
             for y in 0..<self.height {
                 for x in 0..<self.width {
                     let nextState: Bool
@@ -52,11 +57,80 @@ public struct CellularAutomaton {
                     case (false, 3): nextState = true
                     case (false, _): nextState = false
                     }
-                    buffer[y * self.width + x] = nextState
+                    nextMap[y][x] = nextState
                 }
             }
-            initializedCount = self.map.count
+        case .moore:
+            let last = self.map.endIndex - 1
+            let firstLine = self.map[0]
+            var line = firstLine
+            var next = self.map[1]
+            nextMap[0] = Self.next(of: line, prev: self.map.last!, next: next)
+            for y in 1..<last {
+                let prev = line
+                line = next
+                next = self.map[y + 1]
+                nextMap[y] = Self.next(of: line, prev: prev, next: next)
+            }
+            nextMap[last] = Self.next(of: next, prev: line, next: firstLine)
         }
+        self.map = nextMap
+    }
+
+    private static func next(of line: BitArray, prev: BitArray, next: BitArray) -> BitArray {
+        var a = prev
+        a.maskingShiftRight(by: 1)
+        a[a.endIndex - 1] = prev[0]
+        var b = prev
+        var c = prev
+        c.maskingShiftLeft(by: 1)
+        c[0] = prev.last!
+        var d = line
+        d.maskingShiftRight(by: 1)
+        d[d.endIndex - 1] = line[0]
+        var e = line
+        e.maskingShiftLeft(by: 1)
+        e[0] = line.last!
+        var f = next
+        f.maskingShiftRight(by: 1)
+        f[f.endIndex - 1] = next[0]
+        var g = next
+        var h = next
+        h.maskingShiftLeft(by: 1)
+        h[0] = next.last!
+
+        let xab = a & b
+        a ^= b
+        let xcd = c & d
+        c ^= d
+        let xef = e & f
+        e ^= f
+        let xgh = g & h
+        g ^= h
+
+        d = a & c
+        a ^= c
+        c = xab & xcd
+        b = xab ^ xcd ^ d
+
+        h = e & g
+        e ^= g
+        g = xef & xgh
+        f = xef ^ xgh ^ h
+
+        d = a & e
+        a ^= e
+        h = b & f
+        b ^= f
+        h |= b & d
+        b ^= d
+        c ^= g ^ h
+
+        let x = ~c & b
+        let s2 = x & ~a
+        let s3 = x & a
+
+        return ~line & s3 | line & (s2 | s3)
     }
 
     private func countLiveNeighbors(_ x: Int, _ y: Int) -> Int {
@@ -64,33 +138,18 @@ public struct CellularAutomaton {
         let prevY = (y - 1 + self.height) % self.height
         let nextX = (x + 1) % self.width
         let nextY = (y + 1) % self.height
-        let neighbors: [Bool]
-        switch self.neighborhood {
-        case .vonNeumann:
-            neighbors = [
-                self[x, prevY],
-                self[prevX, y],
-                self[nextX, y],
-                self[x, nextY],
-            ]
-        case .moore:
-            neighbors = [
-                self[prevX, prevY],
-                self[x, prevY],
-                self[nextX, prevY],
-                self[prevX, y],
-                self[nextX, y],
-                self[prevX, nextY],
-                self[x, nextY],
-                self[nextX, nextY],
-            ]
-        }
-        return neighbors.lazy.filter { $0 }.count
+        return [
+            self[x, prevY],
+            self[prevX, y],
+            self[nextX, y],
+            self[x, nextY],
+        ]
+        .lazy.filter { $0 }.count
     }
 
     @inlinable
     public subscript(x: Int, y: Int) -> Bool {
-        get { self.map[y * self.width + x] }
-        set { self.map[y * self.width + x] = newValue }
+        get { self.map[y][x] }
+        set { self.map[y][x] = newValue }
     }
 }
