@@ -5,7 +5,7 @@
 ![Platform](https://img.shields.io/badge/platform-ipados%20%7C%20ios-lightgrey.svg)
 [![License](https://img.shields.io/github/license/kkk669/GameOfLife.swiftpm.svg)](LICENSE.txt)
 
-[The Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) implemented in Swift.
+This is [the Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_of_Life) implemented in Swift.
 
 ## Target platforms
 
