@@ -12,10 +12,10 @@
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/kkk669/swift-collections",
+      "location" : "https://github.com/lorentey/swift-collections",
       "state" : {
-        "revision" : "3e6df33472d54ed83dffe3bca7a3c8f65bab4c43",
-        "version" : "1.2.0"
+        "branch" : "origin/bitcollections-finalization",
+        "revision" : "3e6df33472d54ed83dffe3bca7a3c8f65bab4c43"
       }
     }
   ],

@@ -19,7 +19,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", "0.1.0"..<"0.2.0"),
-        .package(url: "https://github.com/kkk669/swift-collections", "1.2.0"..<"1.3.0"),
+        .package(url: "https://github.com/lorentey/swift-collections", branch: "origin/bitcollections-finalization"),
     ],
     targets: [
         .target(
@@ -28,7 +28,7 @@ let package = Package(
                 .product(
                     name: "BitCollections",
                     package: "swift-collections",
-                    moduleAliases: ["BitCollections": "MyBitCollections"]
+                    moduleAliases: ["BitCollections": "BitCollectionsPreview"]
                 )
             ],
             swiftSettings: [
