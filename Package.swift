@@ -29,7 +29,7 @@ let package = Package(
                     name: "BitCollections",
                     package: "swift-collections",
                     moduleAliases: ["BitCollections": "MyBitCollections"]
-                ),
+                )
             ],
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
