@@ -24,6 +24,13 @@ let package = Package(
     targets: [
         .target(
             name: "GameOfLife",
+            dependencies: [
+                .product(
+                    name: "BitCollections",
+                    package: "swift-collections",
+                    moduleAliases: ["BitCollections": "MyBitCollections"]
+                ),
+            ],
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("StrictConcurrency"),
@@ -36,7 +43,6 @@ let package = Package(
             dependencies: [
                 "GameOfLife",
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
-                .product(name: "BitCollections", package: "swift-collections"),
             ],
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"], .when(configuration: .debug)),
