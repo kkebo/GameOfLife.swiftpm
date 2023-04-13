@@ -5,13 +5,19 @@ public enum Neighborhood {
     case moore
 }
 
+/// Conway's Game of Life.
 public struct CellularAutomaton {
+    /// The number of columns.
     public let width: Int
+    /// The number of rows.
     public let height: Int
+    /// A value indicating which types of neighborhoods to use.
     public let neighborhood: Neighborhood
+    /// The current time step.
     public private(set) var time = 0
     @usableFromInline var map: [BitArray]
 
+    /// An initializer.
     public init(width: Int, height: Int, neighborhood: Neighborhood = .moore) {
         self.width = width
         self.height = height
@@ -19,6 +25,7 @@ public struct CellularAutomaton {
         self.map = .init(repeating: .init(repeating: false, count: width), count: height)
     }
 
+    /// Resets to the initial state.
     public mutating func clear() {
         self.time = 0
         for i in self.map.indices {
@@ -26,12 +33,14 @@ public struct CellularAutomaton {
         }
     }
 
+    /// Puts some living cells randomly.
     public mutating func putRandomly() {
         for i in self.map.indices {
             self.map[i] = .randomBits(count: self.width)
         }
     }
 
+    /// Puts R-pentomino.
     public mutating func putRPentomino() {
         self[1, 0] = true
         self[2, 0] = true
@@ -40,6 +49,7 @@ public struct CellularAutomaton {
         self[1, 2] = true
     }
 
+    /// Transitions to the next step.
     public mutating func next() {
         self.time += 1
 
@@ -65,7 +75,7 @@ public struct CellularAutomaton {
             let firstLine = self.map[0]
             var line = firstLine
             var next = self.map[1]
-            nextMap[0] = Self.next(of: line, prev: self.map.last!, next: next)
+            nextMap[0] = Self.next(of: line, prev: self.map[last], next: next)
             for y in 1..<last {
                 let prev = line
                 line = next
@@ -84,20 +94,20 @@ public struct CellularAutomaton {
         var b = prev
         var c = prev
         c.maskingShiftLeft(by: 1)
-        c[0] = prev.last!
+        c[0] = prev[prev.endIndex - 1]
         var d = line
         d.maskingShiftRight(by: 1)
         d[d.endIndex - 1] = line[0]
         var e = line
         e.maskingShiftLeft(by: 1)
-        e[0] = line.last!
+        e[0] = line[line.endIndex - 1]
         var f = next
         f.maskingShiftRight(by: 1)
         f[f.endIndex - 1] = next[0]
         var g = next
         var h = next
         h.maskingShiftLeft(by: 1)
-        h[0] = next.last!
+        h[0] = next[next.endIndex - 1]
 
         let xab = a & b
         a ^= b
@@ -147,6 +157,7 @@ public struct CellularAutomaton {
         .lazy.filter { $0 }.count
     }
 
+    /// Accesses the cell at the specified position.
     @inlinable
     public subscript(x: Int, y: Int) -> Bool {
         get { self.map[y][x] }
