@@ -5,7 +5,8 @@ import SwiftUI
 struct ContentView {
     @State private var automaton = CellularAutomaton(width: 100, height: 100)
     @State private var isResetting = false
-    @State private var framesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
+    @State private var framesPerSecond = 60.0
+    @State private var maximumFramesPerSecond = 60.0
     @State private var task: Task<Void, Error>?
     private var isRunning: Bool { self.task != nil }
 
@@ -58,6 +59,10 @@ extension ContentView: View {
                 .padding(.horizontal, 10)
         }
         .buttonStyle(.borderedProminent)
+        .onAppear {
+            self.framesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
+            self.maximumFramesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
+        }
     }
 
     private var controls: some View {
@@ -93,7 +98,7 @@ extension ContentView: View {
                 Text("\(self.framesPerSecond, format: .number) fps")
                 Slider(
                     value: self.$framesPerSecond,
-                    in: 1...Double(UIScreen.main.maximumFramesPerSecond),
+                    in: 1...Double(self.maximumFramesPerSecond),
                     step: 1
                 )
                 .disabled(self.isRunning)
