@@ -12,10 +12,10 @@
     {
       "identity" : "swift-collections",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/lorentey/swift-collections",
+      "location" : "https://github.com/apple/swift-collections",
       "state" : {
-        "branch" : "origin/bitcollections-finalization",
-        "revision" : "3e6df33472d54ed83dffe3bca7a3c8f65bab4c43"
+        "branch" : "origin/release/1.1",
+        "revision" : "d93d1dccc1fcfb30e51d59e1865d9f3617df78ac"
       }
     }
   ],

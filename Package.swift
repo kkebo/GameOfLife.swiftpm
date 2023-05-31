@@ -19,16 +19,16 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-async-algorithms", "0.1.0"..<"0.2.0"),
-        .package(url: "https://github.com/lorentey/swift-collections", branch: "origin/bitcollections-finalization"),
+        .package(url: "https://github.com/apple/swift-collections", branch: "origin/release/1.1"),
     ],
     targets: [
         .target(
             name: "GameOfLife",
             dependencies: [
                 .product(
-                    name: "BitCollections",
+                    name: "Collections",
                     package: "swift-collections",
-                    moduleAliases: ["BitCollections": "BitCollectionsPreview"]
+                    moduleAliases: ["Collections": "CollectionsPreview"]
                 )
             ],
             swiftSettings: [

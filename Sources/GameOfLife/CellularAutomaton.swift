@@ -1,4 +1,4 @@
-import BitCollectionsPreview
+import CollectionsPreview
 
 public enum Neighborhood {
     case vonNeumann
