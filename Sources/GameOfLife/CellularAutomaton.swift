@@ -1,4 +1,4 @@
-import CollectionsPreview
+import Collections
 
 public enum Neighborhood {
     case vonNeumann

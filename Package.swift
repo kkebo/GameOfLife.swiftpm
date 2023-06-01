@@ -25,11 +25,7 @@ let package = Package(
         .target(
             name: "GameOfLife",
             dependencies: [
-                .product(
-                    name: "Collections",
-                    package: "swift-collections",
-                    moduleAliases: ["Collections": "CollectionsPreview"]
-                )
+                .product(name: "Collections", package: "swift-collections")
             ],
             swiftSettings: [
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
