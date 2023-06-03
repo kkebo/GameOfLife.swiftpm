@@ -28,8 +28,8 @@ let package = Package(
                 .product(name: "Collections", package: "swift-collections")
             ],
             swiftSettings: [
+                .unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"]),
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
-                .enableUpcomingFeature("StrictConcurrency"),
                 .enableUpcomingFeature("ExistentialAny"),
                 .enableUpcomingFeature("ImplicitOpenExistentials"),
             ]
