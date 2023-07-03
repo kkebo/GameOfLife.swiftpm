@@ -7,7 +7,7 @@ struct ContentView {
     @State private var isResetting = false
     @State private var framesPerSecond = 60.0
     @State private var maximumFramesPerSecond = 60.0
-    @State private var task: Task<Void, Error>?
+    @State private var task: Task<Void, any Error>?
     private var isRunning: Bool { self.task != nil }
 
     private func start() {
