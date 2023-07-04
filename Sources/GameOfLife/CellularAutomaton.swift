@@ -58,16 +58,14 @@ public struct CellularAutomaton {
         case .vonNeumann:
             for y in 0..<self.height {
                 for x in 0..<self.width {
-                    let nextState: Bool
-                    switch (self[x, y], self.countLiveNeighbors(x, y)) {
-                    case (true, ...1): nextState = false
-                    case (true, 2...3): nextState = true
-                    case (true, 4...): nextState = false
-                    case (true, _): preconditionFailure()
-                    case (false, 3): nextState = true
-                    case (false, _): nextState = false
+                    nextMap[y][x] = switch (self[x, y], self.countLiveNeighbors(x, y)) {
+                    case (true, ...1): false
+                    case (true, 2...3): true
+                    case (true, 4...): false
+                    case (false, 3): true
+                    case (false, _): false
+                    case _: preconditionFailure()
                     }
-                    nextMap[y][x] = nextState
                 }
             }
         case .moore:
@@ -78,8 +76,7 @@ public struct CellularAutomaton {
             nextMap[0] = Self.next(of: line, prev: self.map[last], next: next)
             for y in 1..<last {
                 let prev = line
-                line = next
-                next = self.map[y + 1]
+                (line, next) = (next, self.map[y + 1])
                 nextMap[y] = Self.next(of: line, prev: prev, next: next)
             }
             nextMap[last] = Self.next(of: next, prev: line, next: firstLine)
