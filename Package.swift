@@ -31,7 +31,6 @@ let package = Package(
                 .unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"]),
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("ImplicitOpenExistentials"),
             ]
         ),
         .executableTarget(
@@ -47,7 +46,6 @@ let package = Package(
                 .unsafeFlags(["-Xfrontend", "-enable-actor-data-race-checks"]),
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("ExistentialAny"),
-                .enableUpcomingFeature("ImplicitOpenExistentials"),
             ]
         ),
     ]
