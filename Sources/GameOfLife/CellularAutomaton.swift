@@ -58,14 +58,15 @@ public struct CellularAutomaton {
         case .vonNeumann:
             for y in 0..<self.height {
                 for x in 0..<self.width {
-                    nextMap[y][x] = switch (self[x, y], self.countLiveNeighbors(x, y)) {
-                    case (true, ...1): false
-                    case (true, 2...3): true
-                    case (true, 4...): false
-                    case (false, 3): true
-                    case (false, _): false
-                    case _: preconditionFailure()
-                    }
+                    nextMap[y][x] =
+                        switch (self[x, y], self.countLiveNeighbors(x, y)) {
+                        case (true, ...1): false
+                        case (true, 2...3): true
+                        case (true, 4...): false
+                        case (false, 3): true
+                        case (false, _): false
+                        case _: preconditionFailure()
+                        }
                 }
             }
         case .moore:
