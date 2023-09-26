@@ -7,7 +7,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Game of Life",
+    name: "GameOfLife.swiftpm",
     platforms: [
         .iOS("16.1")
     ],
