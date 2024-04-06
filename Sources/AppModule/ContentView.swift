@@ -14,11 +14,9 @@ struct ContentView {
         let interval = 1 / self.framesPerSecond
         self.task = .detached(priority: .high) {
             for await _ in AsyncTimerSequence.repeating(every: .seconds(interval)) {
-                let duration = ContinuousClock()
-                    .measure {
-                        self.automaton.next()
-                    }
-                print(duration)
+                let start = ContinuousClock.now
+                self.automaton.next()
+                print(start.duration(to: start))
             }
         }
     }
