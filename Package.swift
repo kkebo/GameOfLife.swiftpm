@@ -18,16 +18,13 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-collections", branch: "main"),
+        .package(url: "https://github.com/apple/swift-async-algorithms", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "GameOfLife",
-            dependencies: [
-                .product(name: "Collections", package: "swift-collections")
-            ],
             swiftSettings: [
+                .enableExperimentalFeature("Embedded"),
                 .enableExperimentalFeature("StrictConcurrency"),
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("ExistentialAny"),
