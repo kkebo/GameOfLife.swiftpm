@@ -7,25 +7,26 @@ struct ContentView {
     @State private var isResetting = false
     @State private var framesPerSecond = 60.0
     @State private var maximumFramesPerSecond = 60.0
-    @State private var task: Task<Void, any Error>?
-    private var isRunning: Bool { self.task != nil }
+    @State private var isRunning = false
 
     private func start() {
-        let interval = 1 / self.framesPerSecond
-        self.task = .detached(priority: .high) {
-            for await _ in AsyncTimerSequence.repeating(every: .seconds(interval)) {
-                let duration = ContinuousClock()
-                    .measure {
-                        self.automaton.next()
-                    }
-                print(duration)
-            }
-        }
+        self.isRunning = true
     }
 
     private func stop() {
-        self.task?.cancel()
-        self.task = nil
+        self.isRunning = false
+    }
+
+    @MainActor
+    private func mainLoop() async {
+        for await _ in AsyncTimerSequence.repeating(every: .seconds(1 / self.framesPerSecond)) {
+            guard self.isRunning else { continue }
+            let duration = ContinuousClock()
+                .measure {
+                    self.automaton.next()
+                }
+            print(duration)
+        }
     }
 }
 
@@ -62,6 +63,9 @@ extension ContentView: View {
         .onAppear {
             self.framesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
             self.maximumFramesPerSecond = Double(UIScreen.main.maximumFramesPerSecond)
+        }
+        .task(id: self.framesPerSecond) {
+            await self.mainLoop()
         }
     }
 
