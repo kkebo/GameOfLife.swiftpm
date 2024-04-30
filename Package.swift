@@ -25,7 +25,7 @@ let package = Package(
         .target(
             name: "GameOfLife",
             dependencies: [
-                .product(name: "Collections", package: "swift-collections")
+                .product(name: "BitCollections", package: "swift-collections")
             ],
             swiftSettings: [
                 .enableExperimentalFeature("StrictConcurrency"),
