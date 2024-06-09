@@ -24,6 +24,7 @@ let package = Package(
         .target(
             name: "GameOfLife",
             swiftSettings: [
+                .enableExperimentalFeature("Embedded"),
                 .enableExperimentalFeature("StrictConcurrency"),
                 .enableUpcomingFeature("BareSlashRegexLiterals"),
                 .enableUpcomingFeature("ExistentialAny"),
