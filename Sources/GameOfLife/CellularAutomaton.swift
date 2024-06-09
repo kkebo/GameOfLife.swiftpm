@@ -1,5 +1,3 @@
-import BitCollections
-
 public enum Neighborhood {
     case vonNeumann
     case moore
@@ -15,21 +13,21 @@ public struct CellularAutomaton {
     public let neighborhood: Neighborhood
     /// The current time step.
     public private(set) var time = 0
-    @usableFromInline var map: [BitArray]
+    @usableFromInline var map: [BitField]
 
     /// An initializer.
     public init(width: Int, height: Int, neighborhood: Neighborhood = .moore) {
         self.width = width
         self.height = height
         self.neighborhood = neighborhood
-        self.map = .init(repeating: .init(repeating: false, count: width), count: height)
+        self.map = .init(repeating: .init(count: width), count: height)
     }
 
     /// Resets to the initial state.
     public mutating func clear() {
         self.time = 0
         for i in self.map.indices {
-            self.map[i].fill(with: false)
+            self.map[i].clear()
         }
     }
 
@@ -85,27 +83,21 @@ public struct CellularAutomaton {
         self.map = nextMap
     }
 
-    private static func next(of line: BitArray, prev: BitArray, next: BitArray) -> BitArray {
-        var a = prev
-        a.maskingShiftRight(by: 1)
-        a[a.endIndex - 1] = prev[0]
+    private static func next(of line: BitField, prev: BitField, next: BitField) -> BitField {
+        var a = prev >> 1
+        a[a.count - 1] = prev[0]
         var b = prev
-        var c = prev
-        c.maskingShiftLeft(by: 1)
-        c[0] = prev[prev.endIndex - 1]
-        var d = line
-        d.maskingShiftRight(by: 1)
-        d[d.endIndex - 1] = line[0]
-        var e = line
-        e.maskingShiftLeft(by: 1)
-        e[0] = line[line.endIndex - 1]
-        var f = next
-        f.maskingShiftRight(by: 1)
-        f[f.endIndex - 1] = next[0]
+        var c = prev << 1
+        c[0] = prev[prev.count - 1]
+        var d = line >> 1
+        d[d.count - 1] = line[0]
+        var e = line << 1
+        e[0] = line[line.count - 1]
+        var f = next >> 1
+        f[f.count - 1] = next[0]
         var g = next
-        var h = next
-        h.maskingShiftLeft(by: 1)
-        h[0] = next[next.endIndex - 1]
+        var h = next << 1
+        h[0] = next[next.count - 1]
 
         let xab = a & b
         a ^= b
