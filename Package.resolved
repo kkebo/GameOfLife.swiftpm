@@ -1,13 +1,13 @@
 {
-  "originHash" : "fa5d44b163f93ac81720709e544d23df7cd3ef9d7c3be4ef3532e44116adf9c4",
+  "originHash" : "8c0c3dbd1b3b4a2d78aa65aee8144db9bd4e90eb732dcaef1ec0300464fef666",
   "pins" : [
     {
       "identity" : "swift-async-algorithms",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-async-algorithms",
+      "location" : "https://github.com/kkebo/swift-async-algorithms",
       "state" : {
-        "revision" : "da4e36f86544cdf733a40d59b3a2267e3a7bbf36",
-        "version" : "1.0.0"
+        "branch" : "origin/fix-swift-playgrounds",
+        "revision" : "ad84e4298979d3c53dfd55c1528ea3f009c079ee"
       }
     },
     {
