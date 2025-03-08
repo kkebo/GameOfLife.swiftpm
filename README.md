@@ -1,7 +1,7 @@
 # Game of Life
 
-[![Swift](https://img.shields.io/badge/Swift-5.10-orange.svg)](https://www.swift.org)
-[![Swift Playgrounds](https://img.shields.io/badge/Swift%20Playgrounds-4.5-orange.svg)](https://itunes.apple.com/jp/app/swift-playgrounds/id908519492)
+[![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)](https://www.swift.org)
+[![Swift Playground](https://img.shields.io/badge/Swift%20Playground-4.6-orange.svg)](https://itunes.apple.com/jp/app/swift-playground/id908519492)
 ![Platform](https://img.shields.io/badge/platform-ipados%20%7C%20ios-lightgrey.svg)
 [![License](https://img.shields.io/github/license/kkebo/GameOfLife.swiftpm.svg)](LICENSE.txt)
 
@@ -14,7 +14,7 @@ This is [the Conway's Game of Life](https://en.wikipedia.org/wiki/Conway's_Game_
   
 ## Build requirements
 
-- Swift Playgrounds 4.5 or later (iPadOS 16.1 or later)
+- Swift Playgrounds 4.6 or later (iPadOS 17.0 or later)
 
 ## Get Started
 
