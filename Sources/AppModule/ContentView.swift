@@ -30,6 +30,7 @@ struct ContentView {
     }
 }
 
+@MainActor
 extension ContentView: View {
     var body: some View {
         VStack(spacing: 5) {
