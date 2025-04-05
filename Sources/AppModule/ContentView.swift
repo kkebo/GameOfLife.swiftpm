@@ -19,8 +19,7 @@ struct ContentView {
 
     @MainActor
     private func mainLoop() async {
-        for await _ in AsyncTimerSequence.repeating(every: .seconds(1 / self.framesPerSecond)) {
-            guard self.isRunning else { continue }
+        for await _ in AsyncTimerSequence.repeating(every: .seconds(1 / self.framesPerSecond)) where self.isRunning {
             let duration = ContinuousClock()
                 .measure {
                     self.automaton.next()
@@ -42,8 +41,7 @@ extension ContentView: View {
                 )
                 for y in 0..<self.automaton.height {
                     let offsetY = rectSize.height * Double(y)
-                    for x in 0..<self.automaton.width {
-                        guard self.automaton[x, y] else { continue }
+                    for x in 0..<self.automaton.width where self.automaton[x, y] {
                         let offset = CGPoint(x: rectSize.width * Double(x), y: offsetY)
                         context.fill(
                             Path(CGRect(origin: offset, size: rectSize)),
