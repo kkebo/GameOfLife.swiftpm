@@ -24,7 +24,9 @@ let package = Package(
         .target(
             name: "GameOfLife",
             swiftSettings: [
-                .enableUpcomingFeature("ExistentialAny")
+                .unsafeFlags(["-O"]),
+                .unsafeFlags(["-cross-module-optimization"]),
+                .enableUpcomingFeature("ExistentialAny"),
             ]
         ),
         .executableTarget(
@@ -37,6 +39,8 @@ let package = Package(
                 .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"], .when(configuration: .debug)),
                 .unsafeFlags(["-Xfrontend", "-warn-long-expression-type-checking=100"], .when(configuration: .debug)),
                 .unsafeFlags(["-Xfrontend", "-enable-actor-data-race-checks"]),
+                .unsafeFlags(["-O"]),
+                .unsafeFlags(["-cross-module-optimization"]),
                 .enableUpcomingFeature("ExistentialAny"),
             ]
         ),
