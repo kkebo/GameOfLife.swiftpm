@@ -150,7 +150,7 @@ public struct CellularAutomaton {
     /// Accesses the cell at the specified position.
     @inlinable
     public subscript(x: Int, y: Int) -> Bool {
-        _read { yield self.map[y][x] }
-        _modify { yield &self.map[y][x] }
+        yielding borrow { yield self.map[y][x] }
+        yielding mutate { yield &self.map[y][x] }
     }
 }
