@@ -32,7 +32,7 @@ let package = Package(
         .executableTarget(
             name: "AppModule",
             dependencies: [
-                "GameOfLife",
+                .target(name: "GameOfLife"),
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
             ],
             swiftSettings: [
