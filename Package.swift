@@ -18,7 +18,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/kkebo/swift-async-algorithms", branch: "origin/fix-swift-playgrounds")
+        .package(url: "https://github.com/kkebo/swift-async-algorithms", branch: "origin/fix-swift-playgrounds"),
+        .package(url: "https://github.com/apple/swift-collections", "1.1.0"..<"1.4.0"),
     ],
     targets: [
         .target(
