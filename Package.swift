@@ -35,6 +35,8 @@ let package = Package(
             dependencies: [
                 .target(name: "GameOfLife"),
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms"),
+                .product(name: "OrderedCollections", package: "swift-collections"),
+                .product(name: "DequeModule", package: "swift-collections"),
             ],
             swiftSettings: [
                 .unsafeFlags(["-Xfrontend", "-warn-long-function-bodies=100"], .when(configuration: .debug)),
