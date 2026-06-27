@@ -1,5 +1,5 @@
-import AsyncAlgorithms
-import GameOfLife
+private import AsyncAlgorithms
+private import GameOfLife
 import SwiftUI
 
 struct ContentView {
