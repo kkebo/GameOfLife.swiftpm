@@ -14,9 +14,9 @@
         let (q, r) = count.quotientAndRemainder(dividingBy: UInt.bitWidth)
         let innerCount = r > 0 ? q + 1 : q
         return .init(
-            inner: .init(unsafeUninitializedCapacity: innerCount) { buf, count in
+            inner: unsafe .init(unsafeUninitializedCapacity: innerCount) { buf, count in
                 for i in 0..<innerCount {
-                    buf[i] = .random(in: UInt.min...UInt.max)
+                    unsafe buf[i] = .random(in: UInt.min...UInt.max)
                 }
                 count = innerCount
             },
