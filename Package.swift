@@ -28,6 +28,10 @@ let package = Package(
                 .unsafeFlags(["-O"]),
                 .unsafeFlags(["-cross-module-optimization"]),
                 .enableUpcomingFeature("ExistentialAny"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
+                .enableUpcomingFeature("MemberImportVisibility"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
             ]
         ),
         .executableTarget(
@@ -44,6 +48,10 @@ let package = Package(
                 .unsafeFlags(["-O"]),
                 .unsafeFlags(["-cross-module-optimization"]),
                 .enableUpcomingFeature("ExistentialAny"),
+                .enableUpcomingFeature("InternalImportsByDefault"),
+                .enableUpcomingFeature("MemberImportVisibility"),
+                .enableUpcomingFeature("InferIsolatedConformances"),
+                .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
             ]
         ),
     ]
