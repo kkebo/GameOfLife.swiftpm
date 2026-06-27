@@ -32,6 +32,8 @@ let package = Package(
                 .enableUpcomingFeature("MemberImportVisibility"),
                 .enableUpcomingFeature("InferIsolatedConformances"),
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .strictMemorySafety(),
+                .treatAllWarnings(as: .error),
             ]
         ),
         .executableTarget(
@@ -52,6 +54,8 @@ let package = Package(
                 .enableUpcomingFeature("MemberImportVisibility"),
                 .enableUpcomingFeature("InferIsolatedConformances"),
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+                .strictMemorySafety(),
+                .treatAllWarnings(as: .error),
             ]
         ),
     ]
