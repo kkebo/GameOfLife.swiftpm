@@ -14,7 +14,7 @@ let package = Package(
     products: [
         .library(
             name: "GameOfLife",
-            targets: ["GameOfLife"]
+            targets: ["GameOfLife"],
         )
     ],
     dependencies: [
@@ -34,7 +34,7 @@ let package = Package(
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                 .strictMemorySafety(),
                 .treatAllWarnings(as: .error),
-            ]
+            ],
         ),
         .executableTarget(
             name: "AppModule",
@@ -57,9 +57,9 @@ let package = Package(
                 .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                 .strictMemorySafety(),
                 .treatAllWarnings(as: .error),
-            ]
+            ],
         ),
-    ]
+    ],
 )
 
 #if canImport(AppleProductTypes)
@@ -83,7 +83,7 @@ let package = Package(
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad])),
             ],
-            appCategory: .simulationGames
+            appCategory: .simulationGames,
         )
     ]
 #endif
