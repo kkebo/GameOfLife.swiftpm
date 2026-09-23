@@ -37,7 +37,7 @@ extension ContentView: View {
             Canvas { context, size in
                 let rectSize = CGSize(
                     width: size.width / Double(self.automaton.width),
-                    height: size.height / Double(self.automaton.height)
+                    height: size.height / Double(self.automaton.height),
                 )
                 for y in 0..<self.automaton.height {
                     let offsetY = rectSize.height * Double(y)
@@ -45,7 +45,7 @@ extension ContentView: View {
                         let offset = CGPoint(x: rectSize.width * Double(x), y: offsetY)
                         context.fill(
                             Path(CGRect(origin: offset, size: rectSize)),
-                            with: .color(.white)
+                            with: .color(.white),
                         )
                     }
                 }
@@ -102,7 +102,7 @@ extension ContentView: View {
                 Slider(
                     value: self.$framesPerSecond,
                     in: 1...Double(self.maximumFramesPerSecond),
-                    step: 1
+                    step: 1,
                 )
                 .disabled(self.isRunning)
             }
